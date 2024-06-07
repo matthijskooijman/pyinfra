@@ -25,12 +25,14 @@ class User(FactBase):
     command = "echo $USER"
 
 
-class Home(FactBase):
+class Home(FactBase[Optional[str]]):
     """
-    Returns the home directory of the current user.
+    Returns the home directory of the given user, or the current user if no user is given.
     """
 
-    command = "echo $HOME"
+    @staticmethod
+    def command(user=""):
+        return f"echo ~{user}"
 
 
 class Path(FactBase):
