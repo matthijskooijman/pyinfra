@@ -18,6 +18,7 @@ from pyinfra.facts.files import Directory, FindInFile, Link
 from pyinfra.facts.server import (
     Crontab,
     Groups,
+    Home,
     Hostname,
     KernelModules,
     Locales,
@@ -858,7 +859,9 @@ def user_authorized_keys(
     """
 
     if not authorized_key_directory:
-        authorized_key_directory = f"/home/{user}/.ssh/"
+        home = host.get_fact(Home, user=user)
+        authorized_key_directory = f"{home}/.ssh"
+
     if not authorized_key_filename:
         authorized_key_filename = "authorized_keys"
 
