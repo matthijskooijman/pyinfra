@@ -881,11 +881,11 @@ def user_authorized_keys(
 
         if path.exists(try_path):
             with open(try_path, "r") as f:
-                return f.read().strip()
+                return [key.strip() for key in f.readlines()]
 
-        return key.strip()
+        return [key.strip()]
 
-    public_keys = list(map(read_any_pub_key_file, public_keys))
+    public_keys = [key for key_or_file in public_keys for key in read_any_pub_key_file(key_or_file)]
 
     # Ensure .ssh directory
     # note that this always outputs commands unless the SSH user has access to the
